@@ -1,0 +1,194 @@
+<!doctype html>
+{% load staticfiles %}
+<html>
+    <head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Shtory | 2016</title>
+<!--		  <link rel="stylesheet" type="text/css" href="{% static "css/boot.css"%}">
+		<link rel="stylesheet" type="text/css" href="{% static "css/login.css"%}">-->
+		      <!--  <script  src="{% static "js/angular.min.js"%}" type="text/javascript"></script>-->
+                <script  src="{% static "js/jquery.min.js"%}" type="text/javascript"></script>
+
+           <link href="{% static "dist/css/flat-ui.min.css"%}"  rel="stylesheet">
+          
+
+<style type="text/css">
+  body,html{
+    margin:0;
+  }
+.hid{
+  display: none !important;
+}
+h1{
+  font-family: helvetica;
+  font-weight: 500;
+  word-wrap: break-word;
+  color:#fff;
+  text-align: center;
+margin-bottom: 60px;
+    margin-top: 0;
+}
+p{
+  text-align: center;
+  color:#fff;
+  font-family: helvetica;
+  font-weight:bold;
+}
+body{
+  background: #2C3E50;  
+}
+.img-div img{
+height: 100px;
+
+}
+.img-div{
+  display: flex; 
+justify-content: space-around;
+}
+.inside-img-div{
+display: flex;
+flex-direction: column; 
+}
+@media only screen and (max-width: 500px) {
+
+.img-div{
+display: flex; 
+
+flex-direction: column;
+}
+.inside-img-div{
+  display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+ } 
+.animate {
+ 
+    -webkit-animation: animate_bg 20s;
+    animation: animate_bg 20s;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    opacity: 0.8;
+}
+
+@keyframes animate_bg {
+    10%   {background:#1ABC9C;}
+    20%  {background:#16A085;}
+    30%  {background:#2ECC71;}
+    40%  {background:#27AE60;}
+    50%  {background:#3498DB;}
+    60%  {background:#2980B9;}
+    70%  {background:#34495E;}
+    80%  {background:#2C3E50;}
+    90%  {background:#E74C3C;}
+    100%  {background:#C0392B;}
+    
+}
+
+@-webkit-keyframes animate_bg {
+   10%   {background:#1ABC9C;}
+    20%  {background:#16A085;}
+    30%  {background:#2ECC71;}
+    40%  {background:#27AE60;}
+    50%  {background:#3498DB;}
+    60%  {background:#2980B9;}
+    70%  {background:#34495E;}
+    80%  {background:#2C3E50;}
+    90%  {background:#E74C3C;}
+    100%  {background:#C0392B;}
+}
+</style>
+<script type="text/javascript">
+  
+  $(document).on('click',"#signup",function(){
+$('#loginform').addClass('hid');
+$('#signupform').removeClass('hid');
+
+});
+   $(document).on('click',"#login",function(){
+$('#loginform').removeClass('hid');
+$('#signupform').addClass('hid');
+
+});
+</script>
+
+    </head>
+    <body>
+ <div class="body">
+<!-- <img src="{% static "media/images/pen.jpg"%}" style="width:400px; height:400px;"/>-->
+<div style="display: flex;flex-direction: column;">
+<h1>What's your shtory... ?</h1>
+<div class="img-div">
+<div class="inside-img-div">
+  <img src="{% static "media/images/Pensils.png"%}"/>
+  <br>
+  <p>Think-Write!</p>
+  </div>
+  <div  class="inside-img-div"> 
+  <img src="{% static "media/images/Book.png"%}"/> 
+  <br>
+  <p>Post!</p>
+  </div>
+  <div  class="inside-img-div">
+  <img src="{% static "media/images/Chat.png"%}"/> 
+  <br>
+  <p>comment!</p>
+  </div>
+  <div  class="inside-img-div">
+  <img src="{% static "media/images/loop.png"%}"/> 
+  <br>
+  <p>Follow!</p>
+  </div>
+  <div  class="inside-img-div">
+  <img src="{% static "media/images/Pocket.png"%}"/> 
+  <br>
+  <p>bookmark!</p>
+</div>
+</div>
+</div>
+<div style="display: flex;flex-direction: column;" class="animate">
+
+<p><a id="login" style="color:#fff; cursor: pointer;">login</a> | <a id="signup" style="color:#fff;cursor: pointer;">signup</a></p>
+ <form style="display: flex;flex-direction: column; align-self: center;"action="/login/" method="POST" role="form" class="login-form" id="loginform">
+ {% csrf_token %}
+      <div class="form-group">
+        <label for="id_username" class="login-field-icon fui-user"></label> 
+        <input class="form-control login-field" id="id_username" maxlength="254" name="username" type="text">
+        </div>
+<div class="form-group"><label for="id_password" class="login-field-icon fui-lock"></label> 
+<input id="id_password" name="password" type="password"  class="login-field form-control">
+</div>
+          <button type="submit" class="btn btn-primary btn-lg btn-block">login</button> 
+        
+      </form>
+    
+<form class="hid  login-form" id="signupform" action="/sign_up/" method="POST" role="form" style="display: flex;flex-direction: column; align-self: center;">
+        {% csrf_token %}
+        <div class="form-group"><label for="id_username" class="login-field-icon fui-user"></label> <input class="form-control login-field" id="id_username" maxlength="30" name="username" type="text"></div>
+
+<div class="form-group"><label for="id_email" class="login-field-icon fui-mail"></label> <input class="form-control login-field" id="id_email" maxlength="254" name="email" type="email"></div>
+<div class="form-group"><label for="id_password1" class="login-field-icon fui-lock"></label> <input  class="form-control login-field" id="id_password1" name="password1" type="password"></div>
+<div class="form-group"><label for="id_password2" class="login-field-icon fui-lock"></label> <input class="form-control login-field" id="id_password2" name="password2" type="password"> <span class="helptext" style="position: absolute;top: 56px;left: 16px;"><small>Should be same as Password</small></span></div>
+          <button type="submit" class="btn btn-primary btn-lg btn-block">signup</button> 
+        
+      </form>
+
+<!--
+       <form class="hid" id="signupform" action="/sign_up/" method="POST"  role="form">
+      
+        {{signupform.as_p}}
+          <button type="submit">signup</button> 
+        
+      </form>-->
+    <!--  <p>or</p>
+      <h3>login with facebook</h3>-->
+  </div>
+    </div>
+    </body>
+</html>

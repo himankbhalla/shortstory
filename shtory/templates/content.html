@@ -1,0 +1,140 @@
+{% load staticfiles %}
+{% load readmore %}
+
+
+ {% for item in item_list %}
+            <div class="col-md-12 col-xs-12 mydiv">
+              <div class="row">
+                  <div class="col-xs-12 mydiv " id="story-box-{{item.id}}">
+                      <div class="panel head" style="margin:0; background: {{colors|random}}; color:#fff;">
+                          {%  if item.user.profile_pic  %}
+                          <img src="{{item.user.profile_pic.url}}" class="img-responsive img-circle" style="width:50px; height:50px;float:left;"/>
+                          <small><a style="color:#fff;" href="/users/{{item.user.id}}">{{item.user}}</a></small>  
+              <span style="float: right;"><small>{{item.on|timesince|truncatechars:7|cut:"a..."|cut:"e..."|cut:"i..."|cut:"o..."|cut:"..."}}</small></span>
+              {% if request.user == user  and userstorypage == 1%}
+              <button type="button" class="close delete-story" id="del-button-{{item.id}} "aria-label="Close"><span class="customcrosshead" aria-hidden="true">&times;</span></button>
+              {% endif %}
+                           {% autoescape off %}<p style="text-align: center;margin-bottom: 5px;" ><strong>{{item.headline}}</strong></p>
+                           {% endautoescape %}
+                          {% else %}
+                          <img src="{% static "media/images//avatar3.png"%}" class="img-responsive img-circle" style="width:50px; height:50px;float:left;">
+                            <small><a style="color:#fff;" href="/users/{{item.user.id}}">{{item.user}}</a></small>
+                            <span  style="float:right;">
+                            <small>{{item.on|timesince|truncatechars:7|cut:"a..."|cut:"e..."|cut:"i..."|cut:"o..."|cut:"..."}}</small></span>
+                            {% if request.user == user and userstorypage == 1 %}
+                             <button type="button" class="close delete-story" aria-label="Close" id="del-button-{{item.id}}"><span class="customcrosshead" aria-hidden="true">&times;</span></button>  
+                            {% endif %}
+                           {% autoescape off %}<p style="text-align: center; margin-bottom: 5px;" ><strong>{{item.headline}}</strong></p>
+                           {% endautoescape %}
+                          {% endif %}
+                          {% if user.is_authenticated and item not in user.stories_reported.all %}
+
+                          {% endif %} 
+                          {% if user.is_authenticated and item in user.stories_reported.all %}
+                          <a href="#" style="float:right;" title="reported"><i class="medium material-icons" style="color:red;">info</i></a>
+                          {% endif %}         
+                      </div>
+                          <div class="panel " style="margin:0;">
+                           <div >
+                              <p class=" text-center" style="font-weight: 100;">
+                                {% if item.scribble_type == 2 %}
+                              <blockquote>
+                              <p>
+                               {{item.story|readmore:30}}</p></blockquote>
+                               {% endif %}
+                                {% if item.scribble_type == 1 %}
+                                <em>
+                               {{item.story|readmore:30}}</em>
+                               {% endif %}
+                                {% if item.scribble_type == 0 %}
+                                
+                               {{item.story|readmore:30}}
+                               {% endif %}
+
+
+                               </p>
+                          </div>
+                        <div>
+                          {% if item.comment_set.all %}
+
+                          {% if item.comment_set.all|length >  4 %}
+                      <a href="#com-list-{{item.id}}" data-toggle="collapse">Comments</a>
+                      <ul class="list-group collapse thread" id="com-list-{{item.id}}" data-spy="scroll">
+                      {% else %}
+                      <ul class="list-group" id="com-list-{{item.id}}" data-spy="scroll">
+                        {% endif %}
+                          {% for comments in item.comment_set.all %}           
+                          <li id="comment-box-{{comments.id}}" class="child list-group-item"><a href="/users/{{comments.comment_by.id}}">{{comments.comment_by}}</a>:<small> {{comments}}</small>&nbsp
+                          {% if comments.comment_by == request.user %}
+                          <button  id="comment-del-{{comments.id}}"style="float: none;
+    vertical-align: middle;" type="button" class="close delete-comment" aria-label="Close"><span aria-hidden="true">&times;</span></button>{% endif %}
+
+                          <span style="float:right; font-weight: 400;"><small>{{comments.on|timesince|truncatechars:7|cut:"a..."|cut:"e..."|cut:"i..."|cut:"o..."|cut:"..."}}</small></span></li>
+                          {% endfor %}
+                          </ul>                  
+                          {% else %}
+                          <p id="nocomments-{{item.id}}"><small>No comments yet</small></p>  
+                            <ul class="list-group " id="com-list-{{item.id}}" data-spy="scroll">
+                           </ul>
+                          {% endif %}
+                          <div class="row">          
+                            <div class="input-field col-md-10">
+                              <form class="form-inline">
+                                <label for="id_text">Comment</label> 
+                                  <div class="form-group commentinput">
+                                    <input id="{{item.id}}" maxlength="100" name="text" type="text" legth="100"  required = "required" class="form-control"/><button type="button" class="close" aria-label="Close"><span class="customcross" aria-hidden="true">&times;</span></button>
+                                  </div>
+                                  <button type="submit" href="/addcomment/" id="story-addcomment-{{item.id}}" class="addcomment btn btn-primary">send</button>
+                              </form>
+                              <div id="like-hid-{{item.id}}">
+                              <span class="likes first">{{item.points}} likes &nbsp</span>
+                              <span class="likes hid last">{{item.points|add:"1"}} likes &nbsp</span>
+                              </div>
+                              <div id="book-hid-{{item.id}}">
+                              <span class="book first">{{item.book_points}} saved</span>
+                              <span class="book hid last">{{item.book_points|add:"1"}} saved</span>
+                              </div>
+                               {% if user.is_authenticated and item  in user.scribbles_liked.all %}
+                              <a type="submit" href="/vote_story/" id="vote-story-{{item.id}}" class="btn btn-primary votestory" style="float:right; background: #fff;"><span class="glyphicon glyphicon-heart filledheart" aria-hidden="true" id="heart-story-{{item.id}}"></span></a>
+                
+                              {% endif %}
+                               {% if user.is_authenticated and item not in user.scribbles_liked.all %}
+                              <button type="submit" href="/vote_story/" id="vote-story-{{item.id}}" class="btn votestory" style="float:right;background: #fff; "><span class="glyphicon glyphicon-heart emptyheart" aria-hidden="true" id="heart-story-{{item.id}}"></span></button>
+                               {% endif %}
+                              {% if user.is_authenticated and item not in user.scribbles_bookmarked.all  %}
+                             <button type="submit" href="/vote_story/" id="bookbutton-story-{{item.id}}" class="btn bookstory " style="float:right; background: #fff;"><span class="glyphicon glyphicon-bookmark emptybook" aria-hidden="true" id="book-story-{{item.id}}"></span></button>
+                            {% else %}
+                            <button type="submit" href="/vote_story/" id="bookbutton-{{item.id}}" class="btn bookstory " style="float:right; background: #fff;"><span class="glyphicon glyphicon-bookmark filledbook" aria-hidden="true" id="book-{{item.id}}"></span></button>
+                             {% endif %}
+                            
+                            </div>
+                        </div>
+                        {% if user.is_authenticated and item not  in user.stories_reported.all %}
+                        {% if  not request.user = item.user %}
+                        <p style="float:right;"><button id="story-report-{{item.id}}" class="report btn btn-primary btn-sm">report</button></p>
+                        {% endif %}
+                        {% endif %}
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+     {% if user.is_authenticated and item not  in user.stories_reported.all %}
+  <form  action="/reportstory/" method="post" class="framed" id="form-report-{{item.id}}">
+                <input type="hidden" name="story_id" value="">
+<input type="hidden" name="csrfmiddlewaretoken" value="">           
+<div class="form-group">
+<label for="id_reason-{{item.id}}"></label>
+<select id="id_reason-{{item.id}}" name="reason" data-toggle="select" class="form-control select select-default mrs mbm">
+<option value="This story is a spam or a scam">This story is spam or a scam</option>
+<option value="This story puts people at risk">This story puts people at risk</option>
+<option value="This story shouldn't be on foodchaps">This story shouldn't be here</option>
+    </select>
+    </div>
+   <input type="submit" value="submit" class="btn"/>          
+</form> 
+{% endif %}
+<br>        
+
+  {% endfor %}

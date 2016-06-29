@@ -1,0 +1,38 @@
+<!doctype html>
+{% load staticfiles %}
+<html ng-app="account">
+    <head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Foodit | 2015</title>
+<!--		  <link rel="stylesheet" type="text/css" href="{% static "css/boot.css"%}">
+		<link rel="stylesheet" type="text/css" href="{% static "css/login.css"%}">-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+     <script  src="{% static "js/angular.min.js"%}" type="text/javascript"></script>
+      <script  src="{% static "js/app.js"%}" type="text/javascript"></script>
+    </head>
+    <body>
+  {% verbatim %}
+    <label>Name:</label>
+      <input type="text" ng-model="yourName" placeholder="Enter a name here">
+      <hr>
+      <h1>Hello {{yourName}}!</h1>
+   
+      <div ng-controller="Mystory as story">
+      <div ng-repeat="person in story.persons">
+      <h1>info of user</h1>
+   <p>{{person.fields.text}}</p>
+            <p>{{person.fields.user}}</p>
+                  <p>{{person.headline}}</p>
+
+</div>
+      </div>
+      {% endverbatim %}
+     
+    		
+    </body>
+</html>

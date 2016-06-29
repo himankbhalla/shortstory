@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row" >
+       <div class="col m4 offset-m2 ">
+<form class="form-signup" action="/sign_up/" method="post">{% csrf_token %}
+    <h2>Create your account</h2>
+    <div class="row">
+<div class="input-field  col s6 ">
+        <label>First name</label>
+      <input id="id_first_name" maxlength="30" name="first_name" type="text" class="validate">
+        </div>
+   
+<div class="input-field  col s6 ">
+        <label>Last name</label>
+       <input id="id_last_name" maxlength="30" name="last_name" type="text">
+    </div> 
+    </div>
+
+   <div class="row">
+<div class="input-field  col s12 ">    
+        {{ form.email.errors }}            
+        <label>E-mail</label>
+       <input id="id_email" maxlength="254" name="email" type="email">
+    </div>    
+    </div>
+    <div class="row">
+<div class="input-field  col s12 ">
+    {{form.errors.values.0}}                
+        <label>Username</label>
+<input id="id_username" maxlength="30" name="username" type="text">        
+        </div>
+    </div>
+    
+<div class="row">
+<div class="input-field  col s12 ">      
+                    
+        <label>phone</label>                   
+        <input id="id_phone" maxlength="15" name="phone" type="text">
+    </div>
+    </div>
+    
+<div class="row">
+<div class="input-field  col s6 ">                    
+        <label>dob</label>                    
+       <input id="id_dob" name="dob" type="text">
+    </div>
+   
+    
+<div class="input-field  col s6"> 
+	                
+      <select id="id_gender" name="gender">
+<option value="M" selected="selected">Male</option>
+<option value="F">Female</option>
+</select>
+     <label for="id_gender">gender</label>
+    <script>
+$(document).ready(function() {
+    $('select').material_select();
+  });
+       </script>
+    </div>
+    </div>
+<div class="row">
+<div class="input-field  col s12 ">        
+    {{form.errors.values.1}}            
+        <label>Password</label>                   
+<input id="id_password1" name="password1" type="password">    
+    </div>
+    </div>
+<div class="row">
+<div class="input-field  col s12 ">        
+    <label>Password again</label>
+<input id="id_password2" name="password2" type="password">    
+    </div>
+    </div>
+    
+<i class="btn waves-effect waves-light waves-input-wrapper" style=""><input type="submit" name="submit" class="waves-button-input" value="Create account"></i></form>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,117 @@
+
+#addstoryform{
+ position: fixed;
+ top:30%;
+ left:67%; 
+}
+
+#storyformbutton{
+  position: fixed;
+    top: 45%;
+    left: 96%;
+    font-size: 30px;
+}
+.hid{
+  display: none;
+}
+.displace_neg{
+  transform: translateX(-225px);
+}
+.displace_neg_correct{
+  transform: translateX(-190px);
+}
+.displace_mob_neg{
+  transform: translateX(-420px);
+}
+.likes,.book{
+  float: left;
+  font-weight: 100;
+  color:#333;
+  font-size:15px; 
+}
+.thread{
+  max-height: 200px;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+.emptyheart{
+color: #fff;
+text-shadow: -1px 0 #999, 0 1px #999, 1px 0 #999, 0 -1px #999;
+font-size: 25px;
+}
+.filledheart{
+  color:#E74C3C;
+  font-size: 28px;
+}
+.emptybook{
+ color: #fff;
+text-shadow: -1px 0 #999, 0 1px #999, 1px 0 #999, 0 -1px #999;
+font-size: 25px; 
+}
+.filledbook{
+  color:#9B59B6;
+  font-size: 25px;
+}
+.hash{
+color: #fff;
+  }
+.panel{
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.mydiv{
+  padding: 0;
+}
+@media only screen and (min-width: 768px) {
+.customcross{
+  position: relative;
+    left: -20px;
+    top: 8px;
+}
+.customcrosshead{
+  position:relative;
+    left: 26px;
+    top: 28px;
+    font-size: -webkit-xxx-large;
+}
+.mobile-menu{
+  display: none;
+}
+}
+@media only screen and (max-width: 768px) {
+.delete-story span{
+  font-size: 50px;
+  position: relative;
+    left: 25px;
+    top: 20px;
+}
+#storyformbutton{
+display: none;
+}
+footer{
+  display: none;
+}
+.customcross{
+  position: relative;
+    top: -32px;
+    left: -8px;
+}
+
+.mobile-menu{
+  height: 60px;
+  width: 100%;
+  background: #ECF0F1;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-around;
+}
+.mobile-menu span{
+  font-size: 24px;
+  line-height: 2.5;
+}
+}
+  
+  }
+  

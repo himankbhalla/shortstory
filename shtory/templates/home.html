@@ -1,0 +1,208 @@
+<!doctype html>
+{% load staticfiles %}
+{% load readmore %}
+<html>
+    <head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+ <script  src="{% static "js/angular.min.js"%}" type="text/javascript"></script>-->
+      <script   src="https://code.jquery.com/jquery-3.0.0.min.js"   integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0="   crossorigin="anonymous"></script>
+      <script  src="{% static "js/jquery.min.js"%}" type="text/javascript"></script>
+      <link  href="{% static "css/bootstrap.min.css"%}" rel="stylesheet"></link>
+ <link  href="{% static "css/homecustom.css"%}" rel="stylesheet"></link>
+      <script  src="{% static "dist/js/flat-ui.min.js"%}" type="text/javascript"></script>
+      
+            <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+ <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+     
+      <!-- Compiled and minified CSS -->
+
+<link href="{% static "dist/css/flat-ui.min.css"%}"  rel="stylesheet">
+<style type="text/css">.framed{
+display: none;
+  }</style>
+ <script  src="{% static "js/custom.js"%}" type="text/javascript"></script>
+<script>
+  $(document).ready(function(){
+        $('select[name="inverse-dropdown"], select[name="scribble_type"], select[name="inverse-dropdown-disabled"]').select2({dropdownCssClass: 'select-dropdown'});
+      });
+$(document).ready(function(){
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+
+var user="{{user}}";
+var userid="{{user.id}}";  
+function commentstory(storyID,text){
+$.ajax({
+  type:"POST",
+  url:"/addcomment/",
+  data:{"story":storyID,"text":text},
+  success: function(pid){                                
+        console.log("hogya");  
+        $('#nocomments-'+ storyID ).hide();      
+    $("#com-list-"+storyID).append('<li class="child list-group-item" id="comment-box-' + pid + '"' + '><a href="users/'+  userid + '">' + user + '</a>:<button  id="comment-del-'+ pid + '"' + 'style="float: none;vertical-align: middle;" type="button" class="close delete-comment" aria-label="Close"><span aria-hidden="true">&times;</span></button><span style="float:right; font-weight: 400;"><small>0 m</small></span></li>');
+   $("#com-list-"+storyID + " " + "li  button ").last().before(text + " ");
+             
+        
+       
+  },
+  headers:{
+  'X-CSRFToken' :csrftoken
+  }
+});
+return false;
+
+}
+$(document).on('click',"button.addcomment",function(){
+var storyID=parseInt(this.id.split("-")[2]);
+
+    var text=$("#"+storyID).val();
+    console.log(text);
+return commentstory(storyID,text);
+
+})
+});
+</script>
+    </head>
+    <body style="background: #ECF0F1;">
+    <nav class="navbar navbar-inverse navbar-embossed" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-6">
+            <span class="sr-only">Toggle navigation</span>
+          </button>
+          <a class="navbar-brand" href="/home">Shtory</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="navbar-collapse-6">
+          <ul class="nav navbar-nav">
+          <li><a href="/profile">Profile</a></li>
+           <li><a href="/userstory">Myshtory</a></li>
+            <li><a href="/followerstory">Followingstory</a></li>
+            <li><a href="/bookmark">bookmark</a></li>
+           </ul>
+             
+          <form class="navbar-form navbar-left" action="/searchquery/" method="GET" role="form">
+            <div class="form-group">
+              <div class="input-group">
+                <input class="form-control" id="navbarInput-01" type="search" placeholder="Search" name="q" required>
+                <span class="input-group-btn">
+                  <button type="submit" class="btn"><span class="fui-search"></span></button>
+                </span>
+              </div>
+            </div>
+          </form>
+          <ul class="nav navbar-nav navbar-right">
+           
+            <li><a href="/logout"><span class="visible-sm visible-xs">Settings<span class="fui-gear"></span></span><span class="visible-md visible-lg"><span class="fui-gear"></span></span></a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+<div class="container">
+  <div class="row">  
+      <div class="col-md-8 col-xs-12 col-md-offset-2" id="placeholder">
+           {% include "content.html" %}
+   </div>
+
+
+
+ 
+
+    
+    </div>
+
+  <footer class="navbar navbar-inverse">
+  <div class="panel-body">A Basic Panel</div>
+</footer>
+
+     <form action="/addstory/" method="POST"  role="form" class="form magic hid" id="addstoryform">
+        {% csrf_token %}
+        <div class="form-group">
+       <label for="id_headline">Headline:</label> <input   class="form-control" id="id_headline" maxlength="20" name="headline" type="text" value="no title">
+       </div>
+       <div class="form-group">
+<label for="id_story">Story:</label> <textarea class="form-control" id="id_story" maxlength="1200" name="story" type="text"></textarea></div>
+<div class="form-group">
+<label for="id_scribble_type">Scribble type:</label> 
+<select data-toggle="select" class="form-control select select-inverse mrs mbm" id="id_scribble_type" name="scribble_type">
+<option value="0" selected="selected">shtory</option>
+<option value="1">poem</option>
+<option value="2">quote</option>
+</select>
+</div>
+<button   class="btn btn-primary" type="submit" value="poststory">poststory</button>
+    </form>
+
+</div>
+    	<div class="mobile-menu">
+      <a href="/home/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>
+      <a href="/userstory/"><span class="glyphicon glyphicon-book" aria-hidden="true"></span></a>
+      <a href="#"><span class="fui-new" aria-hidden="true" id="storyformmob"></span></a>
+      <a href="/bookmark/"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></a>
+      <a href="/profile/"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
+
+      </div>
+<span class="fui-new" id="storyformbutton" title="add story" style="cursor: pointer;"></span>
+
+    </body>
+     {% if home == 1 %}
+          <script>
+              $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+    options.async = true;
+});
+        $(function(){
+var j=2;
+
+$(window).scroll( function(){
+if($(window).scrollTop() + $(window).height() == $(document).height()) {
+    var story=$(".mydiv").last().attr('id').split('-')[2];
+    
+$.ajax({
+type:'GET',
+url:'/feed',
+data:{"feedobj":story},    
+success: function(data){
+    
+console.log("done");
+//console.log(data.toString());  
+$('#placeholder').append(data);
+            
+},
+error: function(){
+
+console.log("nai hora");
+    
+}
+
+});
+}
+});
+
+});
+        </script>
+        {% endif %}
+
+</html>

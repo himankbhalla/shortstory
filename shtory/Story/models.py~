@@ -1,0 +1,41 @@
+from django.db import models
+from Myuser.models import CustomUser
+# Create your models here.
+
+class HashTag(models.Model):
+    name = models.CharField(max_length = 100)
+    count = models.IntegerField(default = 0)
+    def __str__(self):
+        return '#' + self.name
+
+
+class Scribble(models.Model):
+	text=models.CharField(max_length=400)
+	user=models.ForeignKey(CustomUser,related_name = 'stories_uploaded')
+	date=models.DateField(auto_now_add = True)
+	time=models.TimeField(auto_now_add = True)
+	likers= models.ManyToManyField(CustomUser, related_name = 'scribbles_liked')
+	points=models.IntegerField(default=0)
+	user_tags = models.ManyToManyField(CustomUser, related_name = 'usertags_story')
+	hash_tags = models.ManyToManyField(HashTag,related_name='hashtags_story')
+	
+class Comment(models.Model):
+    comment_by = models.ForeignKey(CustomUser, related_name='comments_posted')
+    scribble = models.ForeignKey(Scribble , related_name='scribbles_commented')
+    on = models.DateTimeField(auto_now_add = True)
+    text = models.CharField(max_length = 100)
+
+class Report(models.Model):
+    reported_by=models.OneToOneField(CustomUser,related_name='reported_story')
+    scribble=models.OneToOneField(Scribble)
+    on=models.DateTimeField(auto_now_add = True)
+    report_reasons = (
+        ('This story is a spam or a scam', 'This story is a spam or a scam'),
+        ('This story puts people at risk', 'This story puts people at risk'),
+        ("This story shouldn't be here ", "This story shouldn't be here"),
+    )
+    reason=models.CharField(max_length=30,choices=report_reasons,default='none')
+    
+    def __str__(self):
+        return self.reason    
+
