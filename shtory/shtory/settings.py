@@ -127,6 +127,6 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'rkap95@gmail.com'
-EMAIL_HOST_PASSWORD = 'imstraightforward'
+EMAIL_HOST_PASSWORD = ''
 DEFAULT_FROM_EMAIL = 'rkap95@gmail.com'
 DEFAULT_TO_EMAIL = 'bhallahimank@gmail.com'
